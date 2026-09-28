@@ -91,8 +91,8 @@ export async function submitVote(
     return { status: "error", message: campaign.vote.duplicateMessage, field: "email" };
   }
 
-  // @ts-ignore
-const { error } = await (supabase.from("votes") as any).insert({
+// @ts-expect-error - Desativa checagem estática no insert do Supabase
+  const { error } = await supabase.from("votes" as any).insert({
     option_id: optionId,
     email,
     display_name: displayName || null,
