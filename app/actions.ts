@@ -91,7 +91,7 @@ export async function submitVote(
     return { status: "error", message: campaign.vote.duplicateMessage, field: "email" };
   }
 
-  const { error } = await supabase.from("votes").insert({
+const { error } = await (supabase.from("votes") as any).insert({
     option_id: optionId,
     email,
     display_name: displayName || null,
