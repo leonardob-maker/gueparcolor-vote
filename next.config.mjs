@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   typescript: {
-    // Ignora erros de tipagem estática no build da Vercel
+    // Ignora erros de tipagem do TypeScript durante o build na Vercel
     ignoreBuildErrors: true,
   },
   eslint: {
@@ -10,4 +10,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+export default nextConfig;
