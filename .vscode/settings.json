@@ -1,0 +1,25 @@
+{
+  // O Tailwind v4 usa @theme, @layer e @apply. Sem isto o VS Code marca
+  // essas linhas do globals.css como erro de CSS desconhecido.
+  "css.lint.unknownAtRules": "ignore",
+  "files.associations": {
+    "app/globals.css": "tailwindcss"
+  },
+
+  // Autocomplete de classes tambem dentro de arrays e template strings.
+  "tailwindCSS.experimental.classRegex": [
+    ["className=\\{\\[([^\\]]*)\\]", "\"([^\"]*)\""],
+    ["cn\\(([^)]*)\\)", "\"([^\"]*)\""]
+  ],
+
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": { "source.fixAll.eslint": "explicit" },
+
+  // Usa a versao de TypeScript do projeto, nao a embutida no editor.
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  "search.exclude": { "**/.next": true, "**/node_modules": true },
+  "files.eol": "\n"
+}

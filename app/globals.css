@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Tokens da marca — altere aqui para repaginar a campanha inteira.
+   =========================================================================== */
+@theme {
+  --color-asphalt: #101010;
+  --color-asphalt-soft: #1c1c1c;
+  --color-paper: #f2efe8;
+  --color-paper-dim: #dedad0;
+  --color-spray: #ffd400;
+  --color-cap: #e4002b;
+  --color-rust: #e8761f;
+  --color-guepar: #10327f;
+
+  --font-display: var(--font-anton), "Arial Narrow", sans-serif;
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+
+  --radius-sticker: 1.25rem;
+
+  --shadow-sticker: 0 18px 0 -8px rgba(16, 16, 16, 0.18);
+  --shadow-lift: 0 26px 60px -30px rgba(16, 16, 16, 0.65);
+}
+
+/* ===========================================================================
+   Base
+   =========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-asphalt);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    line-height: 0.92;
+    text-transform: uppercase;
+  }
+
+  ::selection {
+    background: var(--color-spray);
+    color: var(--color-asphalt);
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-spray);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ===========================================================================
+   Texturas e tratamentos — tudo em CSS, nenhum asset externo necessário.
+   =========================================================================== */
+@layer utilities {
+  /* Papel de parede de meio-tom, como impressão de cartaz. */
+  .halftone {
+    background-image: radial-gradient(
+      currentColor 1.4px,
+      transparent 1.5px
+    );
+    background-size: 9px 9px;
+    opacity: 0.16;
+  }
+
+  /* Grão de concreto sobre o preto. */
+  .asphalt-grain {
+    background-color: var(--color-asphalt);
+    background-image:
+      radial-gradient(circle at 18% 22%, rgba(255, 212, 0, 0.09), transparent 42%),
+      radial-gradient(circle at 82% 8%, rgba(228, 0, 43, 0.12), transparent 38%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  }
+
+  /* Marca de marcador atrás de uma palavra. */
+  .marker {
+    background-image: linear-gradient(
+      var(--marker-color, var(--color-spray)),
+      var(--marker-color, var(--color-spray))
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 0.42em;
+    background-position: 0 78%;
+    padding-inline: 0.18em;
+    box-decoration-break: clone;
+  }
+
+  /* Contorno grosso de adesivo. */
+  .sticker {
+    border: 3px solid var(--color-asphalt);
+    box-shadow: var(--shadow-sticker);
+  }
+
+  /* Tarja de fita crepe. */
+  .tape::before {
+    content: "";
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-start: -0.9rem;
+    width: 5.5rem;
+    height: 1.8rem;
+    translate: -50% 0;
+    rotate: -3deg;
+    background: rgba(255, 212, 0, 0.85);
+    mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+  }
+
+  .stroke-text {
+    -webkit-text-stroke: 2px var(--color-asphalt);
+    color: transparent;
+  }
+}
+
+/* ===========================================================================
+   Movimento — usado só na confirmação do voto e no pulso do placar.
+   =========================================================================== */
+@keyframes spray-in {
+  from {
+    opacity: 0;
+    transform: scale(0.94) rotate(-1.5deg);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes tally-pulse {
+  0% {
+    background-color: transparent;
+  }
+  35% {
+    background-color: color-mix(in srgb, var(--color-spray) 45%, transparent);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
+
+@keyframes live-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.animate-spray-in {
+  animation: spray-in 420ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+
+.animate-tally-pulse {
+  animation: tally-pulse 900ms ease-out;
+}
+
+.animate-live-dot {
+  animation: live-dot 1.6s ease-in-out infinite;
+}
