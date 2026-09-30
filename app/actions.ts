@@ -25,7 +25,7 @@ export async function submitVote(
   formData: FormData,
 ): Promise<VoteFormState> {
   if (!isVotingOpen()) {
-    return { status: "error", message: "A votação foi encerrada." };
+    return { status: "error", message: "Votação encerrada." };
   }
 
   const parsed = voteSchema.safeParse({
@@ -45,7 +45,7 @@ export async function submitVote(
   const { ipHash } = await readRequestContext();
 
   if (!SCRIPT_URL) {
-    return { status: "error", message: "Servidor não configurado", field: "form" };
+    return { status: "error", message: "Script não configurado", field: "form" };
   }
 
   try {
@@ -59,7 +59,7 @@ export async function submitVote(
     });
 
     const res = await fetch(`${SCRIPT_URL}?${params}`, { method: "POST" });
-    const data = await res.json();
+    const data = (await res.json()) as { success?: boolean };
 
     if (!data.success) {
       return { status: "error", message: "Erro ao registrar", field: "form" };
