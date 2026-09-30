@@ -92,14 +92,14 @@ export async function submitVote(
   }
 
 // @ts-expect-error - Desativa checagem estática no insert do Supabase
-  const { error } = await supabase.from("votes" as any).insert({
-    option_id: optionId,
-    email,
-    display_name: displayName || null,
-    consent_marketing: consentMarketing,
-    ip_hash: ipHash,
-    user_agent: userAgent,
-  });
+const { error } = await (supabase.from("votes") as any).insert({
+  option_id: optionId,
+  email,
+  display_name: displayName || null,
+  consent_marketing: consentMarketing,
+  ip_hash: ipHash,
+  user_agent: userAgent,
+});
 
   if (error) {
     if (error.code === UNIQUE_VIOLATION) {
